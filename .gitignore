@@ -172,5 +172,3 @@ idea
 ###########
 *.iml
 .idea/
-*.properties
-*.yml
