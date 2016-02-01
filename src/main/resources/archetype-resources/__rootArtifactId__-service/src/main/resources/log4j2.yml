@@ -1,5 +1,32 @@
 Configuration:
   Appenders:
+    RollingRandomAccessFile:
+      - name: infoRollingFile
+        ThresholdFilter:
+          level: warn
+          onMatch: DENY
+          onMismatch: ACCEPT
+        fileName: /var/log/tomcat_log/gala_api/app.log
+        filePattern: /var/log/tomcat_log/${artifactId}/%d{yyyy-MM}/app.log-%d{dd}-%i.log.gz
+        PatternLayout:
+          Pattern: '%d %p %c{1.} [%t] %m%n'
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+      - name: errorRollingFile
+        ThresholdFilter:
+          level: error
+          onMatch: ACCEPT
+          onMismatch: DENY
+        fileName: /var/log/tomcat_log/gala_api/err.log
+        filePattern: /var/log/tomcat_log/${artifactId}/%d{yyyy-MM}/err-%d{dd}-%i.log.gz
+        PatternLayout:
+          Pattern: '%d %p %c{1.} [%t] %m%n'
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
     Console:
           name: console
           PatternLayout:
@@ -21,3 +48,5 @@ Configuration:
       level: info
       AppenderRef:
         - ref: console
+        - ref: infoRollingFile
+        - ref: errorRollingFile
